@@ -1,15 +1,18 @@
 import "./index.css";
 import { initialCards } from "./cards.js";
 import { deleteCard } from "./card.js";
-import { cardLike } from "./card.js";
+import { cardLike, createCard } from "./card.js";
 import { openPopup } from "./modal.js";
-import { closePopup } from "./modal.js";
-import { closePopupEsc } from "./modal.js";
-import { closeOverley } from "./modal.js";
-import { closePopupCross } from "./modal.js";
+import {
+  closePopup,
+  closePopupEsc,
+  closeOverley,
+  closePopupCross,
+  closePopaps,
+} from "./modal.js";
 
 // @todo: Темплейт карточки
-const cardTemplate = document.querySelector("#card-template").content;
+export const cardTemplate = document.querySelector("#card-template").content;
 
 // @todo: DOM узлы
 const container = document.querySelector(".content");
@@ -22,33 +25,12 @@ const openImage = popupImage.querySelector(".popup__image");
 export const formCard = document.forms["new-place"];
 const cardNameInput = document.querySelector(".popup__input_type_card-name");
 const сardUrlInput = document.querySelector(".popup__input_type_url");
-export const formElement = document.forms["edit-profile"];
+const formElement = document.forms["edit-profile"];
 const nameInput = formElement.querySelector(".popup__input_type_name");
 const jobInput = formElement.querySelector(".popup__input_type_description");
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const popups = document.querySelectorAll(".popup");
-
-const createCard = (cardData, onDelete) => {
-  const cardElement = cardTemplate
-    .querySelector(".places__item")
-    .cloneNode(true);
-
-  const cardImage = cardElement.querySelector(".card__image");
-  cardImage.src = cardData.link;
-  cardImage.alt = cardData.name;
-
-  const cardTitle = cardElement.querySelector(".card__title");
-  cardTitle.textContent = cardData.name;
-
-  const deleteButton = cardElement.querySelector(".card__delete-button");
-
-  deleteButton.addEventListener("click", () => onDelete(cardElement));
-
-  cardElement.addEventListener("click", cardLike);
-
-  return cardElement;
-};
 
 // @todo: Перебираем массив
 initialCards.forEach((cardData) => {
@@ -57,7 +39,7 @@ initialCards.forEach((cardData) => {
 });
 
 //функция добавления новой карточки и очистка инпутов
-export function newCards(evt) {
+export function addNewCards(evt) {
   evt.preventDefault();
 
   const cards = {
@@ -69,34 +51,42 @@ export function newCards(evt) {
 
   cardsContainer.prepend(cardElement);
 
-  cardNameInput.value = "";
-  сardUrlInput.value = "";
+  formCard.reset();
 
-  const openPopaps = document.querySelector(".popup_is-opened");
-  closePopup(openPopaps);
+  closePopaps();
 }
 
 //функция открытия попапа, при нажатии наэлемент
-addEventListener("click", function (evt) {
+
+function openPopupCard(evt) {
   if (evt.target.classList.contains("profile__add-button")) {
     openPopup(popupCard);
   }
+}
+
+function openPopupEdit(evt) {
   if (evt.target.classList.contains("profile__edit-button")) {
-    popupName(formElement);
+    addNamePopup(formElement);
     openPopup(popupEdit);
   }
+}
+
+function openPopupImage(evt) {
   if (evt.target.classList.contains("card__image")) {
     openImage.src = evt.target.src;
     openImage.alt = evt.target.alt;
 
-    const cardTitle = document.querySelector(".card__title").textContent;
-    popupCaption.textContent = cardTitle;
+    const cardTitle = document.querySelectorAll(".card__title");
+
+    cardTitle.forEach((item) => {
+      popupCaption.textContent = item.textContent;
+    });
 
     openPopup(popupImage);
   }
-});
+}
 
-function popupName() {
+function addNamePopup() {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
 }
@@ -107,10 +97,14 @@ export function handleFormSubmit(evt) {
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
 
-  const openPopaps = document.querySelector(".popup_is-opened");
-  closePopup(openPopaps);
+  closePopaps();
 }
 
 popups.forEach((item) => {
   item.classList.add("popup_is-animated");
 });
+
+formElement.addEventListener("submit", handleFormSubmit);
+addEventListener("click", openPopupCard);
+addEventListener("click", openPopupEdit);
+addEventListener("click", openPopupImage);
