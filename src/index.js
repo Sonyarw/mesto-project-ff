@@ -76,11 +76,9 @@ function openPopupImage(evt) {
     openImage.src = evt.target.src;
     openImage.alt = evt.target.alt;
 
-    const cardTitle = document.querySelectorAll(".card__title");
-
-    cardTitle.forEach((item) => {
-      popupCaption.textContent = item.textContent;
-    });
+    const card = evt.target.closest('.card');
+    const cardTitle = card.querySelector('.card__title');
+    popupCaption.textContent = cardTitle.textContent;
 
     openPopup(popupImage);
   }
