@@ -10,7 +10,7 @@ import {
   openPopup,
   openPopupCard,
   openPopupEdit,
-  openPopupImage,
+  openPopupImage
 } from "./modal.js";
 
 // @todo: Темплейт карточки

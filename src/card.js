@@ -1,4 +1,4 @@
-import { cardTemplate } from "./index.js";
+import {cardTemplate} from "./index.js";
 
 //функция создания карточек
 export const createCard = (cardData, onDelete) => {

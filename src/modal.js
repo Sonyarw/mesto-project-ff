@@ -7,7 +7,7 @@ import {
   popupCaption,
   openImage,
   addNewCards,
-  formCard,
+  formCard
 } from "./index.js";
 
 export function closePopaps() {
