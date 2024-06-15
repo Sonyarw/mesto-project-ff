@@ -1,10 +1,7 @@
-export { deleteCard };
-export { cardLike };
-export { createCard };
 import { cardTemplate } from "./index.js";
 
 //функция создания карточек
-const createCard = (cardData, onDelete) => {
+export const createCard = (cardData, onDelete) => {
   const cardElement = cardTemplate
     .querySelector(".places__item")
     .cloneNode(true);
@@ -26,14 +23,13 @@ const createCard = (cardData, onDelete) => {
 };
 
 // @todo: Функция удаления карточки
-function deleteCard(cardElement) {
+export function deleteCard(cardElement) {
   cardElement.remove();
 }
 
 //функция лайка
-function cardLike(evt) {
+export function cardLike(evt) {
   if (evt.target.classList.contains("card__like-button")) {
     evt.target.classList.toggle("card__like-button_is-active");
   }
 }
-
