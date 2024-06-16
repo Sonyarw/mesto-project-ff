@@ -1,4 +1,4 @@
-import {cardTemplate} from "./index.js";
+import { cardTemplate, openPopupImage } from "./index.js";
 
 //функция создания карточек
 export const createCard = (cardData, onDelete) => {
@@ -17,6 +17,7 @@ export const createCard = (cardData, onDelete) => {
 
   deleteButton.addEventListener("click", () => onDelete(cardElement));
 
+  cardElement.addEventListener("click", openPopupImage);
   cardElement.addEventListener("click", cardLike);
 
   return cardElement;
@@ -28,7 +29,7 @@ export function deleteCard(cardElement) {
 }
 
 //функция лайка
-export function cardLike(evt) {
+function cardLike(evt) {
   if (evt.target.classList.contains("card__like-button")) {
     evt.target.classList.toggle("card__like-button_is-active");
   }
