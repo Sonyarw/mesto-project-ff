@@ -4,3 +4,8 @@
   object-fit: cover;
   display: block;
 }
+
+
+.popup__content-avatar {
+  min-height: 200px;
+}

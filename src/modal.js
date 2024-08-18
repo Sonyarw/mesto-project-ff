@@ -16,7 +16,6 @@ export function closePopup(popup) {
 function closePopupEsc(evt) {
   if (evt.key === "Escape") {
     const openPopaps = document.querySelector(".popup_is-opened");
-
     closePopup(openPopaps);
   }
 }
@@ -25,7 +24,6 @@ function closePopupEsc(evt) {
 function closeOverley(evt) {
   if (evt.target.classList.contains("popup")) {
     const openPopaps = document.querySelector(".popup_is-opened");
-
     closePopup(openPopaps);
   }
 }
@@ -34,7 +32,6 @@ function closeOverley(evt) {
 function closePopupCross(evt) {
   if (evt.target.classList.contains("popup__close")) {
     const openPopaps = document.querySelector(".popup_is-opened");
-
     closePopup(openPopaps);
   }
 }
