@@ -1,7 +1,10 @@
-import { cardTemplate, openPopupImage } from "./index.js";
 import { deleteLikeCard, cardDeleteServer, addLikeCard } from "./api.js";
+
+// @todo: Темплейт карточки
+export const cardTemplate = document.querySelector("#card-template").content;
+
 // фунукия для отображения карточек
-export const createCard = (cards, myId, deleteCards) => {
+export const createCard = (cards, myId, deleteCards, openPopupImage) => {
   const cardElement = cardTemplate.querySelector(".places__item").cloneNode(true);
   const buttonDeleteCard = cardElement.querySelector(".card__delete-button");
   const cardImage = cardElement.querySelector(".card__image");

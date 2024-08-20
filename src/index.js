@@ -10,12 +10,10 @@ import { deleteCards, createCard } from "./card.js";
 import { closePopup, openPopup } from "./modal.js";
 import { enableValidation, clearValidation } from "./validation.js";
 
-// @todo: Темплейт карточки
-export const cardTemplate = document.querySelector("#card-template").content;
-
 // @todo: DOM узлы
 const container = document.querySelector(".content");
 const cardsContainer = container.querySelector(".places__list");
+const cardElement = cardsContainer.querySelector(".places__item");
 
 const popups = document.querySelectorAll(".popup");
 const popupCard = document.querySelector(".popup_type_new-card");
@@ -115,7 +113,9 @@ function openPopupAvatar(evt) {
 Promise.all([getProfileInfo(), getInitialCards()])
   .then(([profile, collectionСards]) => {
     collectionСards.forEach((cards) => {
-      cardsContainer.append(createCard(cards, profile._id, deleteCards));
+      cardsContainer.append(
+        createCard(cards, profile._id, deleteCards, openPopupImage)
+      );
     });
 
     myId = profile._id;
@@ -220,6 +220,6 @@ buttonProfileEdit.addEventListener("click", openPopupEdit);
 avatarForm.addEventListener("submit", changeAvatar);
 buttonFormCard.addEventListener("click", addNewCards);
 profileImage.addEventListener("click", openPopupAvatar);
-buttonProfileEdit.addEventListener("click", openPopupEdit);
+
 
 enableValidation(validationConfig);
