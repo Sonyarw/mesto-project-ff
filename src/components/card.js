@@ -1,7 +1,7 @@
 import { deleteLikeCard, cardDeleteServer, addLikeCard } from "./api.js";
 
 // @todo: Темплейт карточки
-export const cardTemplate = document.querySelector("#card-template").content;
+const cardTemplate = document.querySelector("#card-template").content;
 
 // фунукия для отображения карточек
 export const createCard = (cards, myId, deleteCards, openPopupImage) => {
@@ -22,7 +22,7 @@ export const createCard = (cards, myId, deleteCards, openPopupImage) => {
   const numberLikes = like.length; // находим длинну массива лайков
   numberLikesSpan.textContent = numberLikes; // вставляем эту длину в спан
 
-  buttonLike.addEventListener("click", cardLike);
+  buttonLike.addEventListener("click", likeCard);
 
   if (cards.owner._id !== myId) {
     buttonDeleteCard.remove();
@@ -43,7 +43,7 @@ export const createCard = (cards, myId, deleteCards, openPopupImage) => {
 };
 
 // функция лайка
-function cardLike(evt) {
+function likeCard(evt) {
   const cardId = evt.target.closest(".card").getAttribute("card-id"); //нашли айди карточки
   const likesCount = evt.target.parentElement.querySelector(".likes_counter"); // у buttonLike нашли спан лайков
   const likeForButton = evt.target.parentElement.querySelector(".card__like-button"); // у buttonLike нашли лайки
@@ -52,11 +52,16 @@ function cardLike(evt) {
     deleteLikeCard(cardId).then((res) => {
       likesCount.textContent = res.likes.length;
       likeForButton.classList.remove("card__like-button_is-active");
+      
+    }).catch((err) => {
+      console.log("Ошибка", err);
     });
   } else {
     addLikeCard(cardId).then((res) => {
       likesCount.textContent = res.likes.length;
       likeForButton.classList.add("card__like-button_is-active");
+    }).catch((err) => {
+      console.log("Ошибка", err);
     });
   }
 }
@@ -66,6 +71,9 @@ export function deleteCards(event) {
   const cardElementForButton = event.target.closest(".places__item"); //у buttonDeleteCard нашли его родителя
   const carddIdForButton = cardElementForButton.getAttribute("card-id"); //потом нашли у buttonDeleteCard у его родителя айди
 
-  cardDeleteServer(carddIdForButton);
-  cardElementForButton.remove();
+  cardDeleteServer(carddIdForButton).then((res) => {
+    cardElementForButton.remove();
+  }).catch((err) => {
+    console.log("Ошибка", err);
+  });
 }

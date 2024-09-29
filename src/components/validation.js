@@ -86,10 +86,10 @@ const setEventListeners = (formElement) => {
   });
 };
 
-export const enableValidation = (formElement) => {
+export const enableValidation = (validationConfig) => {
   // Найдём все формы с указанным классом в DOM,
   // сделаем из них массив методом Array.from
-  const formList = Array.from(document.querySelectorAll(".popup__form"));
+  const formList = Array.from(document.querySelectorAll(validationConfig.form));
 
   // Переберём полученную коллекцию
   formList.forEach((formElement) => {
@@ -97,7 +97,7 @@ export const enableValidation = (formElement) => {
       evt.preventDefault();
     });
 
-    setEventListeners(formElement);
+    setEventListeners(formElement, validationConfig);
   });
 };
 

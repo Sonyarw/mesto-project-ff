@@ -5,10 +5,11 @@ import {
   getInitialCards,
   avatarForServer,
   editProfileFormInfo,
-} from "./api.js";
-import { deleteCards, createCard } from "./card.js";
-import { closePopup, openPopup } from "./modal.js";
-import { enableValidation, clearValidation } from "./validation.js";
+} from "./components/api.js";
+import { deleteCards, createCard } from "./components/card.js";
+import { closePopup, openPopup } from "./components/modal.js";
+import { enableValidation, clearValidation } from "./components/validation.js";
+import { renderLoading } from "./components/utils.js";
 
 // @todo: DOM узлы
 const container = document.querySelector(".content");
@@ -55,18 +56,9 @@ const validationConfig = {
   errorClass: ".form__input-error-active",
 };
 
-function renderLoading(button, isLoading) {
-  if (isLoading) {
-    button.textContent = "Сохранение...";
-    button.disabled = true;
-  } else {
-    button.textContent = "Сохранить";
-    button.disabled = false;
-  }
-}
 
 //функция открытия изображения, при нажатии на картинку и вставляем текстовый контенкт в открытое изображение
-export function openPopupImage(evt) {
+function openPopupImage(evt) {
   if (evt.target.classList.contains("card__image")) {
     openImage.src = evt.target.src;
     openImage.alt = evt.target.alt;
@@ -84,10 +76,12 @@ function openPopupCard(evt) {
   if (evt.target.classList.contains("profile__add-button")) {
     openPopup(popupCard);
 
-    const profileForm = document.querySelector(".popup__form");
-    clearValidation(profileForm, validationConfig);
+    const formCard = document.forms["new-place"];
+    clearValidation(formCard, validationConfig);
   }
 }
+
+
 
 function openPopupEdit(evt) {
   evt.preventDefault();
@@ -104,8 +98,8 @@ function openPopupEdit(evt) {
 function openPopupAvatar(evt) {
   if (evt.target.classList.contains("profile__image")) {
     openPopup(popupAvatar);
-    const profileForm = document.querySelector(".popup__form");
-    clearValidation(profileForm, validationConfig);
+    const avatarForm = document.forms["avatar"];
+    clearValidation(avatarForm, validationConfig);
   }
 }
 
@@ -137,7 +131,7 @@ const renderProfile = (profile) => {
 };
 
 //функция меняет имя попапа на то которое в профиле
-export function changeNameInput() {
+function changeNameInput() {
   editProfileFormName.value = profileTitle.textContent;
   editProfileFormDescription.value = profileDescription.textContent;
 }
@@ -147,7 +141,7 @@ popups.forEach((item) => {
 });
 
 //функция добавления новой карточки и очистка инпутов
-export function addNewCards(evt) {
+function addNewCards(evt) {
   evt.preventDefault();
 
   const activeButtonNewCard = formCard.querySelector(".button");

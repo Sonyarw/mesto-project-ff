@@ -57,7 +57,7 @@ export const getInitialCards = () => {
 
 // удаление моей карточки
 export function cardDeleteServer(cardId) {
-  fetch(`${config.baseUrl}/cards/${cardId}`, {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: "DELETE",
     headers: config.headers,
   }).then(handleResponse);
