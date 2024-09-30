@@ -56,7 +56,6 @@ const validationConfig = {
   errorClass: ".form__input-error-active",
 };
 
-
 //функция открытия изображения, при нажатии на картинку и вставляем текстовый контенкт в открытое изображение
 function openPopupImage(evt) {
   if (evt.target.classList.contains("card__image")) {
@@ -75,13 +74,8 @@ function openPopupImage(evt) {
 function openPopupCard(evt) {
   if (evt.target.classList.contains("profile__add-button")) {
     openPopup(popupCard);
-
-    const formCard = document.forms["new-place"];
-    clearValidation(formCard, validationConfig);
   }
 }
-
-
 
 function openPopupEdit(evt) {
   evt.preventDefault();
@@ -153,6 +147,10 @@ function addNewCards(evt) {
       cardsContainer.prepend(cardMyNew);
       formCard.reset();
       closePopup(popupCard);
+
+      const formCard = document.forms["new-place"];
+
+      clearValidation(formCard, validationConfig);
     })
     .catch((error) => {
       console.log(error);
@@ -214,6 +212,6 @@ buttonProfileEdit.addEventListener("click", openPopupEdit);
 avatarForm.addEventListener("submit", changeAvatar);
 buttonFormCard.addEventListener("click", addNewCards);
 profileImage.addEventListener("click", openPopupAvatar);
-
+formCard.addEventListener("submit", addNewCards);
 
 enableValidation(validationConfig);
